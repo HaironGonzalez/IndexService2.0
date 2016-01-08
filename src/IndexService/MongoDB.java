@@ -39,11 +39,11 @@ public class MongoDB  {
         }
     }
   
-    public void MostrarBDs(){    
+   /* public void MostrarBDs(){    
         List <String> basesDatos = mongo.getDatabaseNames();
         System.out.println("Bases de datos disponibles: " + basesDatos + "\n");
     }
-
+    
     public void IngresarPaguina(String titulo,String texto,int id){
         BasicDBObject documento = new BasicDBObject();            
         documento.put("ID",Integer.toString(id));
@@ -66,6 +66,7 @@ public class MongoDB  {
             
         
     }
+    */
     
     public void BuscarPalabra(String Palabras,javax.swing.JTextArea jTextArea1,String Cant){
         BasicDBObject busqueda = new BasicDBObject();
