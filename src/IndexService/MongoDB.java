@@ -62,22 +62,28 @@ public class MongoDB  {
         documento.put("Palabra",palabra);
         documento.put("ID "+Integer.toString(id), Integer.toString(id));
         tIndice.insert(documento);
-        documento.clear();  // Hairon sabio :)   Hay que limpiar el documento antes de agregar otro, o bien, usar otro documento.
-        //System.out.println("Cantidad tablas despues agregado: " + tIndice.count());
+        documento.clear();  
             
         
     }
     
-    public void BuscarPalabra(String Palabra,javax.swing.JTextArea jTextArea1,String Cant){
+    public void BuscarPalabra(String Palabras,javax.swing.JTextArea jTextArea1,String Cant){
         BasicDBObject busqueda = new BasicDBObject();
-        busqueda.put("Palabra", Palabra);
+        String[] Aux=Palabras.split("\\s+" );
         int Cont = 0;
-        DBCursor Resultados = tIndice.find(busqueda);
-        while (Resultados.hasNext()&& Cont<Integer.parseInt(Cant)) {
-            DBObject objeto = Resultados.next();
-            jTextArea1.setText(jTextArea1.getText()+"Palabra: "+ objeto.get("Palabra")+"     ID: "+objeto.get("ID")+"     Frecuencia: "+objeto.get("Frecuencia")+"\n"); 
-           // System.out.println("Palabra: "+ objeto.get("Palabra")+" ID: "+objeto.get("ID")+" Frecuencia: "+objeto.get("Frecuencia")+"\n");
-            Cont++;
+        for(int i =0;i<Aux.length;i++){
+            if(!Aux[i].contentEquals(" ")&&!Aux[i].contentEquals("")){
+                busqueda.put("Palabra", Aux[i]);
+                
+                DBCursor Resultados = tIndice.find(busqueda);
+                while (Resultados.hasNext()&& Cont<Integer.parseInt(Cant)) {
+                    DBObject objeto = Resultados.next();
+                    jTextArea1.setText(jTextArea1.getText()+"Palabra: "+ objeto.get("Palabra")+"     ID: "+objeto.get("ID")+"     Frecuencia: "+objeto.get("Frecuencia")+"\n"); 
+                   // System.out.println("Palabra: "+ objeto.get("Palabra")+" ID: "+objeto.get("ID")+" Frecuencia: "+objeto.get("Frecuencia")+"\n");
+                    Cont++;
+                }
+               // jTextArea1.setText(jTextArea1.getText()+"\n---------------------------------------------------------------------------------------------------------\n");
+            }
         }
     }
     

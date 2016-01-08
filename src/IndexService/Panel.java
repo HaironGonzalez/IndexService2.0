@@ -42,6 +42,7 @@ public class Panel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +83,13 @@ public class Panel extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jList1);
 
+        jButton3.setText("Limpiar TexArea");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,7 +100,8 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -118,16 +127,18 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
         );
 
@@ -139,16 +150,24 @@ public class Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String Palabra = jTextField1.getText();
+        jTextArea1.setText("");
+        String StopWords = " algún | alguna | algunas | algun | algunos | ambos | ampleamos | ante | antes | aquel | aquellas | aquellos | aqui | arriba | atras | bajo | bastante | bien | cada | cierta | ciertas | cierto | ciertos | como | con | conseguimos | conseguir | consigo | consigue | consiguen | consigues | cual | cuando | dentro | desde | donde | dos | el | ellas | ellos | empleais | emplean | emplear | empleas | empleo | en | encima | entonces | entre | era | eramos | eran | eras | eres | es | esta | estaba | estado | estais | estamos | estan | estoy | fin | fue | fueron | fui | fuimos | gueno | ha | hace | haceis | hacemos | hacen | hacer | haces | hago | incluso | intenta | intentais | intentamos | intentan | intentar | intentas | intento | ir | la | largo | las | lo | los | mientras | mio | modo | muchos | muy | nos | nosotros | otro | para | pero | podeis | podemos | poder | podria | podriais | podriamos | podrian | podrias | por | por qué | porque | primero | puede | pueden | puedo | quien | sabe | sabeis | sabemos | saben | saber | sabes | ser | si | siendo | sin | sobre | sois | solamente | solo | somos | soy | su | sus | también | teneis | tenemos | tener | tengo | tiempo | tiene | tienen | todo | trabaja | trabajais | trabajamos | trabajan | trabajar | trabajas | trabajo | tras | tuyo | ultimo | un | una | unas | uno | unos | usa | usais | usamos | usan | usar | usas | uso | va | vais | valor | vamos | van | vaya | verdad | verdadera | verdadero | vosotras | vosotros | voy | yo";
+        String Palabras = " "+jTextField1.getText()+" ";
+        Palabras = Palabras.replaceAll(StopWords, " ");
         String Cant = jList1.getSelectedValue().toString();
         if (Cant.equalsIgnoreCase("Todos"))Cant="0";
-        mongodb.BuscarPalabra(Palabra,jTextArea1,Cant);
+        mongodb.BuscarPalabra(Palabras,jTextArea1,Cant);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       String ID = jTextField2.getText();
+        jTextArea1.setText("");
+        String ID = jTextField2.getText();
         mongodb.BuscarPagina(ID,jTextArea1);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jButton3ActionPerformed
 
      
     /**
@@ -189,6 +208,7 @@ public class Panel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
