@@ -12,10 +12,12 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.w3c.dom.Document;
 /**
  *
  * @author Hairon
@@ -44,51 +46,38 @@ public class MongoDB  {
         System.out.println("Bases de datos disponibles: " + basesDatos + "\n");
     }
     
-    public void IngresarPaguina(String titulo,String texto,int id){
-        BasicDBObject documento = new BasicDBObject();            
-        documento.put("ID",Integer.toString(id));
-        documento.put("Titulo",titulo);
-        documento.put("Texto",texto);
-        
-        tPaginas.insert(documento);
-        documento.clear();
-    }
 
-    public void IngresarPalabra(String palabra,int frecuencia,int id){
- 
-        
-       // System.out.println("Cantidad tablas antes agregado: " + tIndice.count());
-        BasicDBObject documento = new BasicDBObject();            
-        documento.put("Palabra",palabra);
-        documento.put("ID "+Integer.toString(id), Integer.toString(id));
-        tIndice.insert(documento);
-        documento.clear();  
-            
-        
-    }
     */
     
-    public void BuscarPalabra(String Palabras,javax.swing.JTextArea jTextArea1,String Cant){
+    public ArrayList<DBCursor> BuscarPalabra(String Palabras){   // retorna un array con los DBcursors de cada palabra
         BasicDBObject busqueda = new BasicDBObject();
-        String[] Aux=Palabras.split("\\s+" );
-        int Cont = 0;
-        for(int i =0;i<Aux.length;i++){
-            if(!Aux[i].contentEquals(" ")&&!Aux[i].contentEquals("")){
+        BasicDBObject orden = new BasicDBObject();
+        orden.put("Frecuencia", -1 );
+        String[] Aux=Palabras.split("\\s+" );    // array de palabras
+        ArrayList<DBCursor> Resultados = new ArrayList<DBCursor>();
+        for(int i =0;i<Aux.length;i++){ 
+            //int Cont = 0;
+            if(!Aux[i].contentEquals(" ")&&!Aux[i].contentEquals("")){   // entra si la palabra no es vacia ni espacio
                 busqueda.put("Palabra", Aux[i]);
-                
-                DBCursor Resultados = tIndice.find(busqueda);
-                while (Resultados.hasNext()&& Cont<Integer.parseInt(Cant)) {
+                //int Largo;
+                Resultados.add(tIndice.find(busqueda).sort(orden));
+                //if(Integer.parseInt(Cant)==0)
+                //Largo = Resultados.size(); // si el usuraio elige la opcion Todos 
+                //else {Largo= Integer.parseInt(Cant);}
+                /*while (Resultados.hasNext()&& Cont<Largo) {
                     DBObject objeto = Resultados.next();
-                    jTextArea1.setText(jTextArea1.getText()+"Palabra: "+ objeto.get("Palabra")+"     ID: "+objeto.get("ID")+"     Frecuencia: "+objeto.get("Frecuencia")+"\n"); 
-                   // System.out.println("Palabra: "+ objeto.get("Palabra")+" ID: "+objeto.get("ID")+" Frecuencia: "+objeto.get("Frecuencia")+"\n");
+                   
+                   // jTextArea1.setText(jTextArea1.getText()+"Palabra: "+ objeto.get("Palabra")+"     ID: "+objeto.get("ID")+"     Frecuencia: "+objeto.get("Frecuencia")+"\n"); 
+                    // System.out.println("Palabra: "+ objeto.get("Palabra")+" ID: "+objeto.get("ID")+" Frecuencia: "+objeto.get("Frecuencia")+"\n");
                     Cont++;
-                }
+                }*/
                // jTextArea1.setText(jTextArea1.getText()+"\n---------------------------------------------------------------------------------------------------------\n");
             }
         }
+        return Resultados;
     }
     
-    
+
     public void BuscarPagina(String ID,javax.swing.JTextArea jTextArea1){
         BasicDBObject busqueda = new BasicDBObject();
         busqueda.put("ID", ID);
