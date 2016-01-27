@@ -53,7 +53,7 @@ public class IndexServer {
         //COMUNICACIÓN CON EL CACHE
         ServerSocket serverSocketCache;        
         Socket socketCache;
-        DataOutputStream outCache;
+        ObjectOutputStream outCache;
         DataInputStream inCache;
         String mensajeCache;
         
@@ -104,9 +104,9 @@ public class IndexServer {
                 
                 //RESPUESTA DEL SERVIDOR INDICE AL SERVIDOR CACHE
                 socketCache = new Socket("127.0.0.1",6666);
-                outCache = new DataOutputStream(socketCache.getOutputStream());
+                outCache = new ObjectOutputStream(socketCache.getOutputStream());
                 String respuesta = mensajeCliente;
-                outCache.writeUTF(respuesta); //Envía respuesta al Cache
+                outCache.writeObject(json); //Envía respuesta al Cache
                 System.out.println("\nTengo la respuesta. He respondido al SERVIDOR CACHE: "+respuesta);
                              
                 //inCache.close();
