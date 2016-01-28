@@ -79,13 +79,13 @@ public class IndexServer {
                     while (Resultados.get(i).hasNext()) {
                     DBObject objeto = Resultados.get(i).next();
                    
-                    if(json.containsKey(objeto.get("Palabra"))){
-                        String Aux = (String) json.get(objeto.get("Palabra"));
-                        Aux = Aux+","+"ID:"+objeto.get("ID")+" F:"+objeto.get("Frecuencia");
-                        json.replace(objeto.get("Palabra"), Aux);
-                    }else{
-                        json.put(objeto.get("Palabra"),"ID:"+objeto.get("ID")+" F:"+objeto.get("Frecuencia"));
-                    }
+                        if(json.containsKey(objeto.get("Palabra"))){
+                            String Aux = (String) json.get(objeto.get("Palabra"));
+                            Aux = Aux+","+objeto.get("ID")+" "+objeto.get("Frecuencia");
+                            json.replace(objeto.get("Palabra"), Aux);
+                        }else{
+                            json.put(objeto.get("Palabra"),""+objeto.get("ID")+" "+objeto.get("Frecuencia"));
+                        }
                      
                     }
                 }
@@ -94,7 +94,7 @@ public class IndexServer {
                 out = new ObjectOutputStream(socketCliente.getOutputStream());
                 mensajeCliente = "Respuesta para "+mensajedelCliente;                   
                 out.writeObject(json);
-                System.out.println("He enviado al Cliente: "+mensajeCliente);
+                System.out.println("He enviado al Cliente: "+json);
                 
                 //CIERRE DE LOS SOCKETS (FLUJOS DE DATOS)
                 out.close();
